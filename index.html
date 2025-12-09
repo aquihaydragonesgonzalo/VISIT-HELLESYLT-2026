@@ -137,6 +137,29 @@
             }
         ];
 
+        const GEIRANGER_FERRY_AUDIO_TRACKS = [
+            {
+                id: 1,
+                title: "1. El Fiordo UNESCO",
+                text: "Estás navegando por el corazón del Geirangerfjord, la joya de la corona de los fiordos noruegos. Declarado Patrimonio de la Humanidad por la UNESCO en 2005, este fiordo tiene 15 kilómetros de longitud y está rodeado de montañas majestuosas que alcanzan los 1700 metros de altura. La profundidad bajo nosotros es inmensa, llegando a los 260 metros. Fíjate en el color del agua, un verde esmeralda profundo único, resultado de la mezcla del agua salada del océano con el agua dulce del deshielo y los sedimentos glaciares."
+            },
+            {
+                id: 2,
+                title: "2. Las Siete Hermanas",
+                text: "A mitad del trayecto, prepara tu cámara y mira a estribor, es decir, a la derecha del barco en dirección a Geiranger. Verás las famosas Siete Hermanas (De Syv Søstre). Son siete corrientes de agua separadas que caen en caída libre desde una altura media de 250 metros. La leyenda cuenta que son siete hermanas solteras bailando alegremente montaña abajo, esperando encontrar esposo. El caudal varía según la época del año, siendo más espectacular durante el deshielo de primavera."
+            },
+            {
+                id: 3,
+                title: "3. El Pretendiente",
+                text: "Justo enfrente de las Siete Hermanas, en la orilla opuesta (babor), verás una cascada solitaria con una forma muy peculiar en la roca. Es 'El Pretendiente' (Friaren). La leyenda dice que este valiente pretendiente cortejó a las siete hermanas una a una, pero todas lo rechazaron. Desconsolado y triste, se dio a la bebida. Si observas bien la cascada y la roca que la rodea, verás que tienen claramente la forma de una botella. Es una de las curiosidades naturales más fotografiadas del fiordo."
+            },
+            {
+                id: 4,
+                title: "4. Granjas Imposibles",
+                text: "Alza la vista hacia los acantilados verticales. Verás pequeñas granjas aferradas a la roca a cientos de metros de altura, como las históricas granjas de Skageflå y Knivsflå. Parece imposible, pero la gente vivió y cultivó allí hasta hace pocas décadas, aprovechando el microclima soleado de las laderas. Las historias cuentan que los padres ataban a los niños pequeños con cuerdas cuando jugaban fuera, para evitar que cayeran al fiordo. Hoy están abandonadas, pero se conservan como testimonio de la tenacidad noruega."
+            }
+        ];
+
         const INITIAL_ITINERARY = [
             {
                 id: '0', title: 'Desayuno Buffet MSC', startTime: '08:00', endTime: '08:30',
@@ -188,7 +211,8 @@
                 tips: 'Usa este tiempo para fotos de las cascadas desde el barco. La mejor vista de las 7 Hermanas es desde el agua.',
                 keyDetails: 'Duración 1h 05m.',
                 priceNOK: 585, priceEUR: 50, type: 'transport', completed: false,
-                instagramUrl: 'https://www.instagram.com/explore/tags/geirangerfjord/'
+                instagramUrl: 'https://www.instagram.com/explore/tags/geirangerfjord/',
+                hasAudioGuide: true
             },
             {
                 id: '5', title: 'Llegada y Almuerzo Rápido', startTime: '12:05', endTime: '12:45',
@@ -373,13 +397,13 @@
                             {/* Audio Guide Button */}
                             {activity.hasAudioGuide && (
                                 <button 
-                                    onClick={() => onOpenAudio()}
+                                    onClick={() => onOpenAudio(activity)}
                                     className="flex items-center justify-center w-full mb-4 p-4 rounded-xl bg-slate-800 text-white font-bold shadow-lg hover:bg-slate-900 transition-all active:scale-95 border border-slate-700"
                                 >
                                     <Headphones className="mr-3 text-emerald-400" size={24} />
                                     <div>
                                         <div className="leading-none">Escuchar Audioguía</div>
-                                        <div className="text-[10px] font-normal text-slate-400 mt-1">5 Pistas - Narración Local</div>
+                                        <div className="text-[10px] font-normal text-slate-400 mt-1">Narración inmersiva del recorrido</div>
                                     </div>
                                 </button>
                             )}
@@ -415,9 +439,11 @@
             );
         };
 
-        const AudioGuideModal = ({ onClose }) => {
+        const AudioGuideModal = ({ audioData, onClose }) => {
             const [currentTrack, setCurrentTrack] = useState(null);
             const [isPlaying, setIsPlaying] = useState(false);
+
+            if (!audioData) return null;
 
             const playTrack = (track) => {
                 window.speechSynthesis.cancel();
@@ -452,14 +478,14 @@
                         <div className="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-950">
                             <div className="flex items-center text-white">
                                 <Headphones className="mr-2 text-emerald-400" />
-                                <h3 className="font-bold text-lg">Audioguía Hellesylt</h3>
+                                <h3 className="font-bold text-lg">{audioData.title}</h3>
                             </div>
                             <button onClick={onClose} className="p-1 text-slate-400 hover:text-white"><X size={20}/></button>
                         </div>
 
                         {/* Player Content */}
                         <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                            {HELLESYLT_AUDIO_TRACKS.map((track) => {
+                            {audioData.tracks.map((track) => {
                                 const isActive = currentTrack === track.id;
                                 return (
                                     <div key={track.id} className={`rounded-xl p-3 border transition-all ${isActive ? 'bg-slate-800 border-emerald-500 shadow-emerald-900/20 shadow-lg' : 'bg-slate-800/50 border-slate-700 hover:bg-slate-800'}`}>
@@ -654,6 +680,7 @@
             );
         };
 
+        // ... (Budget component remains same) ...
         const Budget = ({ itinerary }) => {
             const [currency, setCurrency] = useState('NOK'); // Default NOK
             const [rate, setRate] = useState(11.8); // Default fallback rate
@@ -892,7 +919,8 @@
                 </div>
             );
         };
-
+        
+        // ... (Guide and MapComponent remain same) ...
         const Guide = ({ userLocation }) => {
             const [playing, setPlaying] = useState(null);
             const [weather, setWeather] = useState(null);
@@ -1340,7 +1368,7 @@
             const [selectedActivity, setSelectedActivity] = useState(null);
             const [countdown, setCountdown] = useState('');
             const [countdownLabel, setCountdownLabel] = useState('Salida');
-            const [showAudioPlayer, setShowAudioPlayer] = useState(false);
+            const [activeAudioGuide, setActiveAudioGuide] = useState(null);
 
             useEffect(() => {
                 if ('geolocation' in navigator) {
@@ -1400,9 +1428,19 @@
                 setActiveTab('map');
             };
 
-            const handleOpenAudio = () => {
-                setSelectedActivity(null); // Close detail modal
-                setShowAudioPlayer(true); // Open audio modal
+            const handleOpenAudio = (activity) => {
+                setSelectedActivity(null);
+                
+                let audioData = null;
+                if (activity.id === '2') { // Descubriendo Hellesylt
+                    audioData = { title: 'Audioguía Hellesylt', tracks: HELLESYLT_AUDIO_TRACKS };
+                } else if (activity.id === '4') { // Navegación a Geiranger
+                    audioData = { title: 'Navegación Geiranger', tracks: GEIRANGER_FERRY_AUDIO_TRACKS };
+                }
+
+                if (audioData) {
+                    setActiveAudioGuide(audioData);
+                }
             };
 
             return (
@@ -1436,7 +1474,7 @@
                         />
                     )}
 
-                    {showAudioPlayer && <AudioGuideModal onClose={() => setShowAudioPlayer(false)} />}
+                    {activeAudioGuide && <AudioGuideModal audioData={activeAudioGuide} onClose={() => setActiveAudioGuide(null)} />}
 
                     <nav className="bg-white border-t border-slate-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-30 pb-safe shrink-0">
                         <div className="flex justify-around items-center h-16">
