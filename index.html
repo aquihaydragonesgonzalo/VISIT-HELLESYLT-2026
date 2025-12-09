@@ -773,6 +773,7 @@
             const [forecast, setForecast] = useState([]);
             const [hourlyForecast, setHourlyForecast] = useState([]);
             const [astronomy, setAstronomy] = useState(null);
+            const [showRainGuide, setShowRainGuide] = useState(false);
 
             // Fetch Weather & Solar Data
             useEffect(() => {
@@ -960,7 +961,7 @@
                 <div className="pb-24 px-4 pt-6 max-w-lg mx-auto h-full overflow-y-auto">
                     
                     {/* SOS & Apps Buttons */}
-                    <div className="grid grid-cols-2 gap-3 mb-6">
+                    <div className="grid grid-cols-2 gap-3 mb-4">
                         <button 
                             onClick={handleSOS}
                             className="bg-red-600 text-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center active:scale-95 transition-transform animate-pulse-slow"
@@ -987,6 +988,15 @@
                             </button>
                         </div>
                     </div>
+
+                    {/* Rain Guide Button */}
+                    <button 
+                        onClick={() => setShowRainGuide(true)}
+                        className="w-full bg-slate-800 text-white p-3 rounded-xl shadow-md mb-6 flex items-center justify-center space-x-2 active:scale-95 transition-all border border-slate-700"
+                    >
+                        <Umbrella size={20} className="text-blue-300" />
+                        <span className="font-bold">INCLEMENCIA CLIMÁTICA: Plan de Lluvia</span>
+                    </button>
 
                     <h2 className="text-2xl font-bold text-fjord-500 mb-4">Guía Local</h2>
 
@@ -1066,6 +1076,60 @@
                         <p>Actualizado el {UPDATE_DATE}</p>
                         <p className="mt-1">© 2025 - 2026 Gonzalo Arenas de la Hoz</p>
                     </div>
+
+                    {/* Rain Guide Modal */}
+                    {showRainGuide && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+                            <div className="bg-white w-full max-w-lg max-h-[85vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col modal-content">
+                                <div className="bg-slate-800 text-white p-4 flex justify-between items-center shrink-0">
+                                    <h3 className="font-bold flex items-center text-lg"><CloudRain className="mr-2 text-blue-300"/> Plan Táctico: Lluvia</h3>
+                                    <button onClick={() => setShowRainGuide(false)} className="p-1 hover:bg-white/10 rounded-full"><X/></button>
+                                </div>
+                                <div className="p-5 overflow-y-auto text-slate-700 text-sm leading-relaxed space-y-4">
+                                    <p className="italic bg-slate-100 p-3 rounded-lg border-l-4 border-slate-400">
+                                        "Cuatro horas (de 14:30 a 18:30) bajo la lluvia en Geiranger pueden hacerse eternas si no tienes un plan, o convertirse en una tarde 'hygge' maravillosa."
+                                    </p>
+                                    
+                                    <div>
+                                        <h4 className="font-bold text-fjord-600">14:30 – 15:00: La Ascensión Táctica (Sin mojarse)</h4>
+                                        <p className="mt-1">El error de novato: Subir andando por las escaleras bajo la lluvia. Llegarás empapado y sudando.</p>
+                                        <p className="mt-1 font-medium">La jugada maestra: Busca el autobús "Hop On Hop Off" o un taxi solo para subir al Norsk Fjordsenter.</p>
+                                    </div>
+
+                                    <div>
+                                        <h4 className="font-bold text-fjord-600">15:00 – 16:30: Refugio Cultural (Norsk Fjordsenter)</h4>
+                                        <p className="mt-1">Museo interactivo moderno sobre la vida en los fiordos. Cálido, baños impecables y cine panorámico.</p>
+                                        <p className="mt-1 text-slate-500">Costo: ~190 NOK (16-17€). Vale la pena por estar seco y entretenido.</p>
+                                    </div>
+
+                                    <div>
+                                        <h4 className="font-bold text-fjord-600">16:30 – 17:00: La Bajada Épica (Waterfall Walk)</h4>
+                                        <p className="mt-1">Baja andando hacia el puerto por las escaleras junto a la cascada Storfossen. Una cascada bajo la lluvia es el doble de impresionante y bajar es fácil (20 min). ¡Cuidado si resbala!</p>
+                                    </div>
+
+                                    <div>
+                                        <h4 className="font-bold text-fjord-600">17:00 – 17:45: La Recompensa (Geiranger Sjokolade)</h4>
+                                        <p className="mt-1">Entra en la fábrica de chocolate. Pide un chocolate caliente artesanal y un bombón. Sécate mientras ves llover.</p>
+                                        <p className="mt-1 text-slate-500">Costo: ~8-10€.</p>
+                                    </div>
+
+                                    <div>
+                                        <h4 className="font-bold text-fjord-600">17:45 – 18:15: La Sala de Espera Final</h4>
+                                        <ul className="list-disc ml-4 mt-1 space-y-1">
+                                            <li><strong>Opción A (Gratis):</strong> Tienda de souvenirs gigante del puerto.</li>
+                                            <li><strong>Opción B (Confort):</strong> Lobby del Hotel Havila (Wi-Fi y sofás).</li>
+                                        </ul>
+                                    </div>
+
+                                    <div className="bg-emerald-50 p-3 rounded border border-emerald-100 mt-2">
+                                        <h4 className="font-bold text-emerald-800 text-xs uppercase mb-1">Resumen Gastos (Aprox)</h4>
+                                        <p className="font-mono font-bold text-emerald-700">Total: ~35€ por persona</p>
+                                        <p className="text-xs text-emerald-600">Transporte (10€) + Museo (17€) + Chocolate (8€). Un triunfo evitar la hipotermia.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             );
         };
