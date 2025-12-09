@@ -1,0 +1,21 @@
+{
+  "name": "Guía Hellesylt & Geiranger 2026",
+  "short_name": "Hellesylt 2026",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#2A5B87",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEizvd29U2jrgvItZ1NdjgP38bME0SfqcLvLzKL5XbYhxuXx27NmHj1jtvFW_dT-OQQLv0VoyZ2N06GLc0W6X4ny1FBObFKPMCKOtC829BpaTS9AZAsK1Of2ced1T29g5mCQ6QIaHz2DZA_Q4oHDkLxJCxm9UdjQw1ENA_ts8xVdDCccmdQ5Z391DLw2e-Y/s320/Gemini_Generated_Image_dejh51dejh51dejh.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEizvd29U2jrgvItZ1NdjgP38bME0SfqcLvLzKL5XbYhxuXx27NmHj1jtvFW_dT-OQQLv0VoyZ2N06GLc0W6X4ny1FBObFKPMCKOtC829BpaTS9AZAsK1Of2ced1T29g5mCQ6QIaHz2DZA_Q4oHDkLxJCxm9UdjQw1ENA_ts8xVdDCccmdQ5Z391DLw2e-Y/s320/Gemini_Generated_Image_dejh51dejh51dejh.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

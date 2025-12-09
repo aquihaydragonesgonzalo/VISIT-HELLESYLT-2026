@@ -1,0 +1,7 @@
+{
+  "name": "VISIT HELLESYLT 2026",
+  "description": "",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
